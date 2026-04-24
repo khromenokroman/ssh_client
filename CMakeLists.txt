@@ -10,7 +10,9 @@ configure_file(Version.in Version @ONLY)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(LIBSSH2 REQUIRED libssh2)
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME}
+        src/main.cpp
+)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBSSH2_LIBRARIES})
 
 install(TARGETS ${PROJECT_NAME}
