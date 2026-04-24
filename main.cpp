@@ -1,11 +1,10 @@
-#include <array>
-#include <libssh2.h>
-
 #include <arpa/inet.h>
+#include <libssh2.h>
 #include <netdb.h>
 #include <sys/socket.h>
 #include <unistd.h>
 
+#include <array>
 #include <cerrno>
 #include <cstring>
 #include <iostream>
@@ -16,7 +15,7 @@
 #include <utility>
 
 class Libssh2Guard {
-public:
+   public:
     Libssh2Guard() {
         if (libssh2_init(0) != 0) {
             throw std::runtime_error("libssh2_init failed");
@@ -59,10 +58,13 @@ struct ChannelDeleter {
 };
 
 class SshClient {
-public:
-    SshClient(std::string host, int port, std::string username, std::string password) :
-        m_host(std::move(host)), m_port(port), m_username(std::move(username)), m_password(std::move(password)),
-        m_libssh2Guard(std::make_unique<Libssh2Guard>()) {
+   public:
+    SshClient(std::string host, int port, std::string username, std::string password)
+        : m_host(std::move(host)),
+          m_port(port),
+          m_username(std::move(username)),
+          m_password(std::move(password)),
+          m_libssh2Guard(std::make_unique<Libssh2Guard>()) {
         m_socket = connectTcp(m_host, m_port);
         if (!m_socket || *m_socket < 0) {
             throw std::runtime_error("TCP connection failed: " + std::string(std::strerror(errno)));
@@ -114,7 +116,7 @@ public:
         return output;
     }
 
-private:
+   private:
     static std::unique_ptr<int, SocketDeleter> connectTcp(std::string_view host, int port) {
         addrinfo hints{};
         addrinfo *result = nullptr;
