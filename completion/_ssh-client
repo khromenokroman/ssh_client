@@ -1,0 +1,8 @@
+#compdef ssh-client
+
+_arguments \
+  '--host[SSH host]:host:_hosts' \
+  '--port[SSH port]:port:_ports' \
+  '--user[SSH username]:user:_users' \
+  '--pass[SSH password]:password:' \
+  '--help[Show help]'
