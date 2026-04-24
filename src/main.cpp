@@ -1,19 +1,37 @@
 #include <iostream>
 #include <string>
 
+#include <boost/program_options.hpp>
+
 #include "ssh_client.hpp"
+
+namespace po = boost::program_options;
 
 int main(int argc, char* argv[]) {
     try {
-        if (argc != 5) {
-            std::cerr << "Usage: " << argv[0] << " <host> <port> <username> <password>\n";
-            return 1;
+        std::string host;
+        std::string port_string;
+        std::string username;
+        std::string password;
+
+        po::options_description options("Allowed options");
+        options.add_options()("help,h", "show help message")(
+            "host", po::value<std::string>(&host)->required(), "ssh host")(
+            "port", po::value<std::string>(&port_string)->required(), "ssh port")(
+            "user", po::value<std::string>(&username)->required(), "ssh username")(
+            "pass", po::value<std::string>(&password)->required(), "ssh password");
+
+        po::variables_map vm;
+        po::store(po::parse_command_line(argc, argv, options), vm);
+
+        if (vm.count("help")) {
+            std::cout << options << '\n';
+            return EXIT_SUCCESS;
         }
 
-        const std::string host = argv[1];
-        const int port = std::stoi(argv[2]);
-        const std::string username = argv[3];
-        const std::string password = argv[4];
+        po::notify(vm);
+
+        const int port = std::stoi(port_string);
 
         SshClient client(host, port, username, password);
 
@@ -43,7 +61,6 @@ int main(int argc, char* argv[]) {
         }
 
         std::cout << "Disconnected.\n";
-
     } catch (const std::exception& exception) {
         std::cerr << "Error: " << exception.what() << '\n';
         return EXIT_FAILURE;
