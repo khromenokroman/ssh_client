@@ -9,15 +9,22 @@ configure_file(Version.in Version @ONLY)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(LIBSSH2 REQUIRED libssh2)
+find_package(Boost REQUIRED COMPONENTS program_options)
 
 add_executable(${PROJECT_NAME}
         src/main.cpp
         src/ssh_client.cpp
 )
-target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBSSH2_LIBRARIES})
+target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PRIVATE
+        ${LIBSSH2_LIBRARIES}
+        Boost::program_options
+)
 
 install(TARGETS ${PROJECT_NAME}
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(FILES ${CMAKE_SOURCE_DIR}/completion/_ssh-client
+        DESTINATION share/zsh/vendor-completions)
 
 set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
 set(CPACK_PACKAGE_VENDOR "khromenokroman")
