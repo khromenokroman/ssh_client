@@ -12,6 +12,7 @@ pkg_check_modules(LIBSSH2 REQUIRED libssh2)
 
 add_executable(${PROJECT_NAME}
         src/main.cpp
+        src/ssh_client.cpp
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBSSH2_LIBRARIES})
 
