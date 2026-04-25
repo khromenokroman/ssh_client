@@ -1,9 +1,8 @@
+#include <boost/program_options.hpp>
 #include <iostream>
 #include <string>
 
-#include <boost/program_options.hpp>
-
-#include "ssh_client.hpp"
+#include "../include/ssh_client.hpp"
 
 namespace po = boost::program_options;
 
