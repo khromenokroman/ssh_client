@@ -5,17 +5,29 @@ project(ssh-client
         HOMEPAGE_URL "https://github.com/khromenokroman/ssh_client")
 
 set(CMAKE_CXX_STANDARD 20)
+
+if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    set(CMAKE_PREFIX_PATH "/opt/homebrew")
+endif ()
+
 configure_file(Version.in Version @ONLY)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(LIBSSH2 REQUIRED libssh2)
 find_package(Boost REQUIRED COMPONENTS program_options)
 
+
 add_executable(${PROJECT_NAME}
         src/main.cpp
         src/ssh_client.cpp
 )
-target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIRS})
+if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    link_directories(${LIBSSH2_LIBRARY_DIRS} /opt/homebrew/lib)
+endif ()
+target_include_directories(${PROJECT_NAME} PRIVATE
+        ${Boost_INCLUDE_DIRS}
+        ${LIBSSH2_INCLUDE_DIRS}
+)
 target_link_libraries(${PROJECT_NAME} PRIVATE
         ${LIBSSH2_LIBRARIES}
         Boost::program_options
