@@ -33,7 +33,7 @@ sudo apt install -y build-essential cmake dpkg-dev libssh2-1-dev libboost-progra
 #### macOS/Homebrew
 
 ````bash
-brew install cmake libssh2 boost
+brew install cmake libssh2 boost pkgconf
 ````
 
 ### Сборка из исходников
