@@ -2,7 +2,8 @@
 
 ![SSHClient preview](logo/logo.png)
 
-**ssh-client** — это простой консольный SSH-клиент на C++20, который позволяет подключаться к удалённому серверу по SSH, выполнять команды и получать их вывод.
+**ssh-client** — это простой консольный SSH-клиент на C++20, который позволяет подключаться к удалённому серверу по SSH,
+выполнять команды и получать их вывод.
 
 ## Возможности
 
@@ -20,17 +21,38 @@
 
 - CMake 3.26+
 - C++20
+- libssh2
+- Boost.Program_options
+
+#### Debian/Ubuntu
+
+```bash
+sudo apt install -y build-essential cmake dpkg-dev libssh2-1-dev libboost-program-options-dev
+`````
+
+#### macOS/Homebrew
 
 ````bash
-apt install -y build-essential cmake dpkg-dev
+brew install cmake libssh2 boost
 ````
 
 ### Сборка из исходников
 
-```bash 
+#### Linux
+
+```bash
 mkdir -p build && cd build
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr ..
 cmake --build . -j$(nproc)
+cmake --install .
+```
+
+#### macOS
+
+```bash
+mkdir -p build && cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake --build . -j$(sysctl -n hw.ncpu)
 cmake --install .
 ```
 
@@ -51,16 +73,19 @@ apt install -y ./ssh-client_<версия>_amd64.deb
 ### Использование
 
 Запуск:
+
 ``` bash
 ssh-client --host <host> --port <port> --user <username> --pass <password>
 ```
 
 Пример:
+
 ``` bash
 ssh-client --host 172.17.135.116 --port 22 --user user --pass 'Adid@$'
 ```
 
 После подключения программа перейдёт в интерактивный режим:
+
 ``` text
 Connected. Type commands, or 'exit'/'quit' to stop.
 > whoami
