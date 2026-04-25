@@ -46,8 +46,7 @@ std::string SshClient::execute(std::string_view command) {
 
     std::unique_ptr<LIBSSH2_CHANNEL, ChannelDeleter> channel(rawChannel);
 
-    std::string commandString(command);
-    if (libssh2_channel_exec(channel.get(), commandString.c_str()) != 0) {
+    if (libssh2_channel_exec(channel.get(), command.data()) != 0) {
         throw std::runtime_error("Could not execute command");
     }
 
