@@ -81,7 +81,7 @@ ssh-client --host <host> --port <port> --user <username> --pass <password>
 Пример:
 
 ``` bash
-ssh-client --host 172.17.135.116 --port 22 --user user --pass 'Adid@$'
+ssh-client --host 172.16.0.100 --port 22 --user user --pass 'Pa$$w0rd'
 ```
 
 После подключения программа перейдёт в интерактивный режим:
