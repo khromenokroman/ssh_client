@@ -67,8 +67,21 @@ apt install -y ./ssh-client_<версия>_amd64.deb
 
 После установки будут размещены:
 
-- `бинарник`: /usr/bin/ssh-client
-- `zsh completion`: /usr/share/zsh/vendor-completions/_ssh-client
+- `бинарник`: `/usr/bin/ssh-client`
+- shared-библиотека:
+    - `/usr/lib/x86_64-linux-gnu/libssh-client.so.0.1.0`
+    - `/usr/lib/x86_64-linux-gnu/libssh-client.so.0`
+    - `/usr/lib/x86_64-linux-gnu/libssh-client.so`
+- заголовочный файл: `/usr/include/ssh-client/ssh_client.hpp`
+- `zsh completion`: `/usr/share/zsh/vendor-completions/_ssh-client`
+- CMake package files для `find_package(ssh-client REQUIRED)`:
+    - `/usr/lib/x86_64-linux-gnu/cmake/ssh-client/ssh-clientTargets.cmake`
+    - `/usr/lib/x86_64-linux-gnu/cmake/ssh-client/ssh-clientTargets-debug.cmake`
+    - `/usr/lib/x86_64-linux-gnu/cmake/ssh-client/ssh-clientConfig.cmake`
+    - `/usr/lib/x86_64-linux-gnu/cmake/ssh-client/ssh-clientConfigVersion.cmake`
+
+> Примечание: пути установки зависят от значения `-DCMAKE_INSTALL_PREFIX`. В примерах используется `-DCMAKE_INSTALL_PREFIX=/usr`.
+> Также путь `/usr/lib/x86_64-linux-gnu` может отличаться в зависимости от архитектуры и дистрибутива.
 
 ### Использование
 
