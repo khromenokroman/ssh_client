@@ -51,7 +51,7 @@ cmake --install .
 
 ```bash
 mkdir -p build && cd build
-cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr ..
 cmake --build . -j$(sysctl -n hw.ncpu)
 cmake --install .
 ```
