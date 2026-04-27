@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     set(CMAKE_PREFIX_PATH "/opt/homebrew")
@@ -25,16 +26,19 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 endif ()
 
 # lib
+# lib
 add_library(${PROJECT_NAME}-lib SHARED
         src/ssh_client.cpp
 )
 set_target_properties(${PROJECT_NAME}-lib PROPERTIES
         OUTPUT_NAME ${PROJECT_NAME}
+        EXPORT_NAME ${PROJECT_NAME}
         VERSION ${PROJECT_VERSION}
         SOVERSION ${PROJECT_VERSION_MAJOR}
 )
 target_include_directories(${PROJECT_NAME}-lib PUBLIC
-        ${CMAKE_SOURCE_DIR}/include
+        $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}>
         ${LIBSSH2_INCLUDE_DIRS}
 )
 target_link_libraries(${PROJECT_NAME}-lib PRIVATE
@@ -60,6 +64,7 @@ install(TARGETS ${PROJECT_NAME}
         COMPONENT runtime
 )
 install(TARGETS ${PROJECT_NAME}-lib
+        EXPORT ${PROJECT_NAME}Targets
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         COMPONENT runtime
         NAMELINK_COMPONENT dev
@@ -71,6 +76,34 @@ install(FILES ${CMAKE_SOURCE_DIR}/include/ssh_client.hpp
 install(FILES ${CMAKE_SOURCE_DIR}/completion/_ssh-client
         DESTINATION share/zsh/vendor-completions
         COMPONENT runtime
+)
+
+set(CMAKE_CONFIG_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
+
+install(EXPORT ${PROJECT_NAME}Targets
+        FILE ${PROJECT_NAME}Targets.cmake
+        NAMESPACE ${PROJECT_NAME}::
+        DESTINATION ${CMAKE_CONFIG_INSTALL_DIR}
+        COMPONENT dev
+)
+
+configure_package_config_file(
+        ${CMAKE_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in
+        ${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+        INSTALL_DESTINATION ${CMAKE_CONFIG_INSTALL_DIR}
+)
+
+write_basic_package_version_file(
+        ${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+        VERSION ${PROJECT_VERSION}
+        COMPATIBILITY SameMajorVersion
+)
+
+install(FILES
+        ${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+        ${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+        DESTINATION ${CMAKE_CONFIG_INSTALL_DIR}
+        COMPONENT dev
 )
 
 # DEB
@@ -99,6 +132,6 @@ set(CPACK_DEBIAN_RUNTIME_PACKAGE_DEPENDS "")
 set(CPACK_DEBIAN_DEV_PACKAGE_NAME "ssh-client-dev")
 set(CPACK_DEBIAN_DEV_PACKAGE_SECTION "libdevel")
 set(CPACK_DEBIAN_DEV_PACKAGE_DESCRIPTION "Development files for ssh-client library")
-set(CPACK_DEBIAN_DEV_PACKAGE_DEPENDS "ssh-client (= ${PROJECT_VERSION})")
+set(CPACK_DEBIAN_DEV_PACKAGE_DEPENDS "ssh-client (= ${PROJECT_VERSION}), libssh2-1-dev")
 
 include(CPack)
