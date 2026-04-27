@@ -80,8 +80,9 @@ apt install -y ./ssh-client_<версия>_amd64.deb
     - `/usr/lib/x86_64-linux-gnu/cmake/ssh-client/ssh-clientConfig.cmake`
     - `/usr/lib/x86_64-linux-gnu/cmake/ssh-client/ssh-clientConfigVersion.cmake`
 
-> Примечание: пути установки зависят от значения `-DCMAKE_INSTALL_PREFIX`. В примерах используется `-DCMAKE_INSTALL_PREFIX=/usr`.
-> Также путь `/usr/lib/x86_64-linux-gnu` может отличаться в зависимости от архитектуры и дистрибутива.
+> Примечание: 
+> - пути установки зависят от значения `-DCMAKE_INSTALL_PREFIX`. В примерах используется `-DCMAKE_INSTALL_PREFIX=/usr`.
+> - nакже путь `/usr/lib/x86_64-linux-gnu` может отличаться в зависимости от архитектуры и дистрибутива.
 
 ### Использование
 
