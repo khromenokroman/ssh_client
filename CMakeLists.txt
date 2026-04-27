@@ -26,7 +26,6 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 endif ()
 
 # lib
-# lib
 add_library(${PROJECT_NAME}-lib SHARED
         src/ssh_client.cpp
 )
