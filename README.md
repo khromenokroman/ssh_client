@@ -104,3 +104,38 @@ Disconnected.
 - `--pass` пароль пользователя
 - `--help` показать справку
 
+### Использование как библиотеки
+
+После установки dev-пакета библиотеку можно подключить в другом CMake-проекте через `find_package`.
+
+Пример `CMakeLists.txt`:
+
+``` cmake
+cmake cmake_minimum_required(VERSION 4.2) 
+project(untitled120)
+
+set(CMAKE_CXX_STANDARD 20) 
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+find_package(PkgConfig REQUIRED) 
+find_package(ssh-client REQUIRED)
+pkg_check_modules(LIBSSH2 REQUIRED libssh2) 
+
+add_executable(${PROJECT_NAME} main.cpp )
+target_link_libraries({PROJECT_NAME} PRIVATE
+    {LIBSSH2_LIBRARIES} 
+    ssh-client::ssh-client 
+)
+```
+
+Пример `main.cpp`:
+
+````cpp
+#include <iostream>
+#include <ssh-client/ssh_client.hpp>
+
+int main() {
+    std::cout << SshClient("localhost", 22, "roma", "roma").execute("ls -l /tmp1") << std::endl;
+    return 0;
+}
+````
