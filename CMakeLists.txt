@@ -7,6 +7,8 @@ project(ssh-client
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+add_subdirectory(options)
+
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
@@ -43,19 +45,24 @@ target_include_directories(${PROJECT_NAME}-lib PUBLIC
 target_link_libraries(${PROJECT_NAME}-lib PRIVATE
         ${LIBSSH2_LIBRARIES}
 )
+if (SSH_CLIENT_BUILD_CLI)
+    # bin
+    add_executable(${PROJECT_NAME}
+            src/main.cpp
+    )
+    target_include_directories(${PROJECT_NAME} PRIVATE
+            ${Boost_INCLUDE_DIRS}
+    )
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+            ${PROJECT_NAME}-lib
+            Boost::program_options
+            ${LIBSSH2_LIBRARIES}
+    )
+endif ()
 
-# bin
-add_executable(${PROJECT_NAME}
-        src/main.cpp
-)
-target_include_directories(${PROJECT_NAME} PRIVATE
-        ${Boost_INCLUDE_DIRS}
-)
-target_link_libraries(${PROJECT_NAME} PRIVATE
-        ${PROJECT_NAME}-lib
-        Boost::program_options
-        ${LIBSSH2_LIBRARIES}
-)
-
-add_subdirectory(install)
-add_subdirectory(deb)
+if (SSH_CLIENT_BUILD_INSTALL)
+    add_subdirectory(install)
+endif ()
+if (SSH_CLIENT_BUILD_DEB)
+    add_subdirectory(deb)
+endif ()
