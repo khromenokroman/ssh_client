@@ -40,7 +40,7 @@ set_target_properties(${PROJECT_NAME}-lib PROPERTIES
         SOVERSION ${PROJECT_VERSION_MAJOR}
 )
 target_include_directories(${PROJECT_NAME}-lib PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}>
         ${LIBSSH2_INCLUDE_DIRS}
 )
