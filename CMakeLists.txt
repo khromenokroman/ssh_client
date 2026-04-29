@@ -20,7 +20,9 @@ configure_file(Version.in Version @ONLY)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(LIBSSH2 REQUIRED libssh2)
-find_package(Boost REQUIRED COMPONENTS program_options)
+if (SSH_CLIENT_BUILD_CLI)
+    find_package(Boost REQUIRED COMPONENTS program_options)
+endif ()
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     include_directories(${LIBSSH2_INCLUDE_DIRS})
