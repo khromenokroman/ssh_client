@@ -1,4 +1,4 @@
-option(SSH_CLIENT_BUILD_CLI "Build ssh-client command line tool" ON)
+option(SSH_CLIENT_BUILD_CLI "Build ssh-client command line tool" OFF)
 option(SSH_CLIENT_BUILD_INSTALL "Build install rules" OFF)
 option(SSH_CLIENT_BUILD_DEB "Build deb package rules" OFF)
 
