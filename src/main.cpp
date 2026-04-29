@@ -14,11 +14,10 @@ int main(int argc, char* argv[]) {
         std::string password;
 
         po::options_description options("Allowed options");
-        options.add_options()("help,h", "show help message")(
-            "host", po::value<std::string>(&host)->required(), "ssh host")(
+        options.add_options()("help,h", "show help message")("host", po::value<std::string>(&host)->required(), "ssh host")(
             "port", po::value<std::string>(&port_string)->required(), "ssh port")(
-            "user", po::value<std::string>(&username)->required(), "ssh username")(
-            "pass", po::value<std::string>(&password)->required(), "ssh password");
+            "user", po::value<std::string>(&username)->required(), "ssh username")("pass", po::value<std::string>(&password)->required(),
+                                                                                   "ssh password");
 
         po::variables_map vm;
         po::store(po::parse_command_line(argc, argv, options), vm);
@@ -52,7 +51,7 @@ int main(int argc, char* argv[]) {
                 continue;
             }
 
-            const std::string output = client.execute(command);
+            std::string const output = client.execute(command);
             std::cout << output;
             if (!output.empty() && output.back() != '\n') {
                 std::cout << '\n';
@@ -60,7 +59,7 @@ int main(int argc, char* argv[]) {
         }
 
         std::cout << "Disconnected.\n";
-    } catch (const std::exception& exception) {
+    } catch (std::exception const& exception) {
         std::cerr << "Error: " << exception.what() << '\n';
         return EXIT_FAILURE;
     }
