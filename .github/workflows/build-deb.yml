@@ -30,7 +30,7 @@ jobs:
 
       - name: Configure CMake
         run: |
-          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DSSH_CLIENT_BUILD_CLI=ON -DSSH_CLIENT_BUILD_DEB=ON
 
       - name: Build
         run: |
