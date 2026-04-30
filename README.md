@@ -38,6 +38,19 @@ brew install cmake libssh2 boost pkgconf
 
 ### Сборка из исходников
 
+**Опции сборки**
+
+| Опция | По умолчанию | Описание |
+|---|---:|---|
+| `SSH_CLIENT_BUILD_CLI` | `OFF` | Собирает консольную утилиту `ssh-client` |
+| `SSH_CLIENT_BUILD_INSTALL` | `OFF` | Добавляет правила установки через `cmake --install` |
+| `SSH_CLIENT_BUILD_DEB` | `OFF` | Добавляет правила сборки DEB-пакета через CPack |
+
+Shared-библиотека `libssh-client` собирается всегда.
+
+Если включена опция `SSH_CLIENT_BUILD_DEB`, то `SSH_CLIENT_BUILD_INSTALL` включается автоматически.
+
+
 #### Linux
 
 ```bash
