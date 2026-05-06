@@ -63,7 +63,8 @@ if (ENABLE_BUILD_CLI_TOOL)
 
 endif ()
 
+
+add_subdirectory(install)
 if (PROJECT_IS_TOP_LEVEL)
-    add_subdirectory(install)
     add_subdirectory(deb)
 endif ()
