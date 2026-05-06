@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25.1)
 project(ssh-client
-        VERSION 0.3.0
+        VERSION 0.3.1
         LANGUAGES CXX
         HOMEPAGE_URL "https://github.com/khromenokroman/ssh_client")
 
