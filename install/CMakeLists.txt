@@ -15,10 +15,13 @@ install(FILES ${CMAKE_SOURCE_DIR}/include/ssh_client.hpp
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
         COMPONENT dev
 )
+
+if (ENABLE_BUILD_CLI_TOOL)
 install(FILES ${CMAKE_SOURCE_DIR}/completion/_ssh-client
         DESTINATION share/zsh/vendor-completions
         COMPONENT runtime
 )
+endif ()
 
 set(CMAKE_CONFIG_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
 
