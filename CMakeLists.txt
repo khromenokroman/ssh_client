@@ -60,6 +60,7 @@ if (ENABLE_BUILD_CLI_TOOL)
             Boost::program_options
             ${LIBSSH2_LIBRARIES}
     )
+
 endif ()
 
 if (PROJECT_IS_TOP_LEVEL)
