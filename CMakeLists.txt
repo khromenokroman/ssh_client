@@ -64,4 +64,6 @@ endif ()
 
 
 add_subdirectory(install)
-add_subdirectory(deb)
+if (PROJECT_IS_TOP_LEVEL)
+    add_subdirectory(deb)
+endif ()
