@@ -8,19 +8,22 @@ endif ()
 install(TARGETS ${PROJECT_NAME}-lib
         EXPORT ${PROJECT_NAME}Targets
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         COMPONENT runtime
         NAMELINK_COMPONENT dev
 )
-install(FILES ${CMAKE_SOURCE_DIR}/include/ssh_client.hpp
+
+install(FILES ${PROJECT_SOURCE_DIR}/include/ssh_client.hpp
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
         COMPONENT dev
 )
 
 if (ENABLE_BUILD_CLI_TOOL)
-install(FILES ${CMAKE_SOURCE_DIR}/completion/_ssh-client
-        DESTINATION share/zsh/vendor-completions
-        COMPONENT runtime
-)
+    install(FILES ${PROJECT_SOURCE_DIR}/completion/_ssh-client
+            DESTINATION share/zsh/vendor-completions
+            COMPONENT runtime
+    )
 endif ()
 
 set(CMAKE_CONFIG_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
@@ -33,20 +36,20 @@ install(EXPORT ${PROJECT_NAME}Targets
 )
 
 configure_package_config_file(
-        ${CMAKE_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in
-        ${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+        ${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in
+        ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
         INSTALL_DESTINATION ${CMAKE_CONFIG_INSTALL_DIR}
 )
 
 write_basic_package_version_file(
-        ${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+        ${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
         VERSION ${PROJECT_VERSION}
         COMPATIBILITY SameMajorVersion
 )
 
 install(FILES
-        ${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake
-        ${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+        ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+        ${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
         DESTINATION ${CMAKE_CONFIG_INSTALL_DIR}
         COMPONENT dev
 )
