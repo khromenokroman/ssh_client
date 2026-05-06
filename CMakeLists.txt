@@ -20,7 +20,7 @@ configure_file(Version.in Version @ONLY)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(LIBSSH2 REQUIRED libssh2)
-if (SSH_CLIENT_BUILD_CLI)
+if (ENABLE_BUILD_CLI_TOOL)
     find_package(Boost REQUIRED COMPONENTS program_options)
 endif ()
 
@@ -47,7 +47,7 @@ target_include_directories(${PROJECT_NAME}-lib PUBLIC
 target_link_libraries(${PROJECT_NAME}-lib PRIVATE
         ${LIBSSH2_LIBRARIES}
 )
-if (SSH_CLIENT_BUILD_CLI)
+if (ENABLE_BUILD_CLI_TOOL)
     # bin
     add_executable(${PROJECT_NAME}
             src/main.cpp
@@ -62,9 +62,6 @@ if (SSH_CLIENT_BUILD_CLI)
     )
 endif ()
 
-if (SSH_CLIENT_BUILD_INSTALL)
-    add_subdirectory(install)
-endif ()
-if (SSH_CLIENT_BUILD_DEB)
-    add_subdirectory(deb)
-endif ()
+
+add_subdirectory(install)
+add_subdirectory(deb)
